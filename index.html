@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="https://yangpin.link/upload/logo.jpg" type="image/jpg"> <!-- 添加网页图标 -->
+<title>在线文本替换工具</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://yangpin.link/upload/2023/12/yydy_2023-12-31_22-48-48.webp"); /* 添加页面背景图 */
+        background-size: cover;
+        background-repeat: no-repeat;    
+    }
+    {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .container div {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    textarea {
+        width: calc(100% - 20px);
+        height: calc(100% - 60px); /* 调整高度以适应边距和按钮的高度 */
+        height: 290px;
+        margin-bottom: 10px;
+        resize: none;
+    }
+    button {
+        padding: 8px 16px;
+        cursor: pointer;
+        border: none; /* 移除边框 */
+        background-color: #08f0e4; /* 底纹淡蓝色 */
+        font-weight: bold; /* 加粗字体 */
+        color: black; /* 黑色字体 */
+    }
+    button:hover {
+        background-color: #4caf50; /* 悬停时变为绿色 */
+    }
+    .footer {
+        text-align: center; /* 将文本内容居中显示 */
+    }
+    .alert {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: lightblue;
+        padding: 20px;
+        border-radius: 5px;
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <h2 style="font-size: 1.2em; color: blue;">原始文本</h2>
+        <textarea id="originalText"></textarea>
+        <button onclick="copyOriginalText()">复制原始文本</button>
+    </div>
+    <div>
+        <h2 style="font-size: 1.2em; color: blue;">最终文本</h2>
+        <textarea id="replacedText" readonly></textarea>
+        <button onclick="copyReplacedText()">复制最终文本</button>
+    </div>
+    <div>
+        <h2 style="font-size: 1.2em; color: blue;">替换内容</h2>
+        <h2 style="font-size: 1.0em; color: red;">一行一个原始文本中需要替换的关键字，与右侧【被替换为】一一对应</h2>
+        <textarea id="keywords"></textarea>
+    </div>
+    <div>
+        <h2 style="font-size: 1.2em; color: blue;">被替换为</h2>
+        <h2 style="font-size: 1.0em; color: red;">一行一个替换左侧的内容</h2>
+        <textarea id="replacementKeywords"></textarea>
+        <button onclick="replaceText()">一键替换</button>
+        <button onclick="clearAll()">清除所有</button>
+    </div>
+</div>
+<div class="footer">
+    © 2024 啵品 Powered by  <a href="https://yangpin.link" target="_blank">杨杨得亿</a>
+</div>
+<div class="alert" id="alertMessage">✅ 已清除</div>
+
+<script>
+    function replaceText() {
+        var originalText = document.getElementById('originalText').value;
+        var keywords = document.getElementById('keywords').value.split('\n');
+        var replacementKeywords = document.getElementById('replacementKeywords').value.split('\n');
+        var replacedText = originalText;
+        for (var i = 0; i < keywords.length; i++) {
+            var regex = new RegExp(keywords[i], 'g');
+            replacedText = replacedText.replace(regex, replacementKeywords[i]);
+        }
+        document.getElementById('replacedText').value = replacedText;
+        showAlert('✔️替换成功'); // 添加替换成功的回显
+    }
+
+    function copyOriginalText() {
+        var originalText = document.getElementById('originalText');
+        originalText.select();
+        document.execCommand('copy');
+        showAlert('✔️已复制到剪贴板'); // 添加复制成功的回显
+    }
+
+    function copyReplacedText() {
+        var replacedText = document.getElementById('replacedText');
+        replacedText.select();
+        document.execCommand('copy');
+        showAlert('✔️已复制到剪贴板'); // 添加复制成功的回显
+    }
+
+    function clearAll() {
+        document.getElementById('originalText').value = '';
+        document.getElementById('replacedText').value = '';
+        document.getElementById('keywords').value = '';
+        document.getElementById('replacementKeywords').value = '';
+        showAlert('✔️已清除'); // 添加清除成功的回显
+    }
+
+    function showAlert(message) {
+        var alertBox = document.getElementById('alertMessage');
+        alertBox.textContent = message;
+        alertBox.style.display = 'block';
+        setTimeout(function() {
+            alertBox.style.display = 'none';
+        }, 1000);
+    }
+</script>
+</body>
+</html>
