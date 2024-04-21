@@ -6,3 +6,5 @@
 **演示地址：[https://txt.yydy.link:2023](https://txt.yydy.link:2023)**
 
 **博客地址：[https://yangpin.link](https://yangpin.link)**
+
+![image](https://github.com/yangpin97/Text-Replacement-Tool/assets/105636974/611b1add-4196-4612-adf8-cf9940159d1d)
